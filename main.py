@@ -1,36 +1,44 @@
-from ctypes import *
+import alsa_error_ignore
+import sys
+from pydub import AudioSegment
 import pyaudio
 import wave
-import sys
+import scipy.io.wavfile as wavfile
+import numpy as np
+import pylab as pl
+import matplotlib.pyplot as plt
+import os
 
-ERROR_HANDLER_FUNC =  CFUNCTYPE(None, c_char_p, c_int, c_char_p, c_int, c_char_p)
-def	py_error_handler(filename, line, function, err, fmt):
-	pass
-c_error_handler = ERROR_HANDLER_FUNC(py_error_handler)
-
-ignore_alsa_errors = cdll.LoadLibrary('libasound.so')
-ignore_alsa_errors.snd_lib_error_set_handler(c_error_handler)
+from pydub.utils import make_chunks
 
 if len(sys.argv) < 2:
-	print("Give 1 single argument u damn idiot!")
+	print("1 argument expected!")
 	sys.exit(-1)
 
-wf = wave.open(sys.argv[1], 'rb')
+frequency_list = []
+with open('frequency') as frequency:
+	for line in frequency:
+		frequency_list.append(line)
+print(frequency_list)
 
-p = pyaudio.PyAudio()
+song = AudioSegment.from_file("E-note.wav", "wav")
+segments = make_chunks(song, 1000)
 
-stream = p.open(format = p.get_format_from_width(wf.getsampwidth()),
-				channels = wf.getnchannels(),
-				rate=wf.getframerate(),
-				output = True)
+for i, chunk in enumerate(segments):
+	chunk.export("snippet.wav", format='wav')
+	rate, data = wavfile.read("snippet.wav")
+	power = 20*np.log10(np.abs(np.fft.rfft(data[:2048])))
+	freq = np.linspace(0, rate/2.0, len(power))
+	maxpower = np.abs(power)
+	peak = np.max(maxpower)
+	pos = np.argmax(maxpower)
+	freqmax = freq[pos]
+	print(freqmax)
+	for i in frequency_list:
+		
+	os.remove("snippet.wav")
+# pl.plot(freq,power)
+# pl.xlabel("Freq")
+# pl.ylabel("Power(dB)")
+# pl.show()
 
-data = wf.readframes(1024)
-
-while len(data) > 0:
-	stream.write(data)
-	data = wf.readframes(1024)
-
-stream.stop_stream()
-stream.close()
-
-p.terminate()
