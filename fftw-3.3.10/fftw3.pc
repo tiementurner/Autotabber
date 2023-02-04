@@ -1,4 +1,4 @@
-prefix=/usr/local
+prefix=/Users/tblanker/Documents/projects/Autotabber
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
 includedir=${prefix}/include

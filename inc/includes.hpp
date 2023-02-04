@@ -4,7 +4,8 @@
 #include <fstream>
 #include <cstdint>
 
-#include <fftw.h>
+#include "../fftw/include/fftw3.h"
+
 
 using std::cin;
 using std::cout;
