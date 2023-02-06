@@ -42,11 +42,15 @@ int main(int argc, char* argv[])
         uint64_t numSamples = wavHeader.ChunkSize / bytesPerSample; //How many samples are in the wav file?
         static const uint16_t BUFFER_SIZE = 4096;
         float* buffer = new float[BUFFER_SIZE];
+        std::vector<double> samples(numSamples);
+        int N = samples.size();
+        
         while ((bytesRead = fread(buffer, sizeof buffer[0], BUFFER_SIZE / (sizeof buffer[0]), wavFile)) > 0)
         {
             //fftw_complex signal[]
             cout << "Read " << bytesRead << " bytes." << endl;
         }
+        cout << "Audio Format               :" << wavHeader.AudioFormat << endl;
         delete [] buffer;
         buffer = nullptr;
         filelength = getFileSize(wavFile);

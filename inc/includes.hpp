@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <cstdint>
+#include <vector>
 
 #include "../fftw/include/fftw3.h"
 

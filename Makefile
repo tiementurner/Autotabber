@@ -1,10 +1,11 @@
-CC_FLAGS = -MD
+CC_FLAGS = 
 
 NAME = PitchRecog
 
 CC = c++
 
 FILES = src/main.cpp \
+		src/sampling.cpp
 
 OFILES = $(FILES:.cpp=.o)
 
