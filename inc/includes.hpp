@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cstdint>
 #include <vector>
+#include <cmath>
 
 #include "../fftw/include/fftw3.h"
 

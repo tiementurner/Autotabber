@@ -5,7 +5,7 @@ NAME = PitchRecog
 CC = c++
 
 FILES = src/main.cpp \
-		src/sampling.cpp
+		
 
 OFILES = $(FILES:.cpp=.o)
 
@@ -14,10 +14,13 @@ RED = \033[38;5;124m
 BLUE = \033[38;5;153m
 NORMAL = \033[38;5;255m
 
+
+LIBS = -L/Users/tblanker/Documents/projects/Autotabber/fftw/lib
+
 all : $(NAME)
 
 $(NAME) : $(OFILES) 
-	@$(CC) $(CC_FLAGS) $(OFILES) -o $(NAME)
+	@$(CC) $(CC_FLAGS) $(OFILES) -o $(NAME)  $(LIBS) -lfftw3
 	@echo "-----------------------------------"
 	@echo "$(BLUE)Created executable:$(NORMAL)	$(NAME)"
 	@echo "-----------------------------------"
