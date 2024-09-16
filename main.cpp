@@ -22,9 +22,12 @@ int main() {
 
     // Prepare for DSP processing
     std::vector<float> audioSamples(pSampleData, pSampleData + totalSampleCount * channels);
+    for (auto it = begin(audioSamples);it != end(audioSamples); it++) {
+        std::cout << *it << ", ";
+    }
     
     // Do DSP with `audioSamples`
     
-    //drwav_free(pSampleData);
+    drwav_free(pSampleData, NULL);
     return 0;
 }
